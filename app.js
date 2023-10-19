@@ -7,6 +7,14 @@ function divGenerator() {
     genBtn.addEventListener('click', () => {
         const rand = Math.floor(Math.random() * 4)+1;
         console.log(rand);
+
+        // Check if the black box already has an element inside
+        if (blackBox.hasChildNodes()) {
+            while (blackBox.firstChild) {
+                blackBox.removeChild(blackBox.firstChild);
+            }
+        }
+
         const newBox = document.createElement('div');
         newBox.classList.add('imgBox', 'dragging');
         newBox.style.backgroundImage = `url("/images/albums/${rand}.jpg")`; // Add the 'imgBox' class and 'dragging' class to make it draggable
