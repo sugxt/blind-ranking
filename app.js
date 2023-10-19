@@ -2,26 +2,33 @@ const imgBoxes = document.querySelectorAll(".imgBox");
 const whiteBoxes = document.querySelectorAll(".whiteBox");
 const genBtn = document.getElementById('genElem');
 const blackBox = document.querySelector('.blackBox');
+let regenCount = 0;
 
 function divGenerator() {
-    genBtn.addEventListener('click', () => {
+    
+    genBtn.addEventListener('click', (e) => {
         const rand = Math.floor(Math.random() * 4)+1;
-        console.log(rand);
+        if(regenCount > 3){
+            return;
+        }
 
         // Check if the black box already has an element inside
         if (blackBox.hasChildNodes()) {
             while (blackBox.firstChild) {
                 blackBox.removeChild(blackBox.firstChild);
+                regenCount+= 1
+                console.log(regenCount)
             }
+        } else {
+            regenCount = 0;
         }
-
         const newBox = document.createElement('div');
         newBox.classList.add('imgBox', 'dragging');
-        newBox.style.backgroundImage = `url("/images/albums/${rand}.jpg")`; // Add the 'imgBox' class and 'dragging' class to make it draggable
+        newBox.style.backgroundImage = `url("/images/albums/${rand}.jpg")`;
         newBox.setAttribute('draggable', true);
         blackBox.appendChild(newBox);
 
-        // Add dragstart event listener for the newly generated div
+
         newBox.addEventListener('dragstart', (e) => {
             if (newBox.getAttribute('draggable') === "false") {
                 e.preventDefault();
@@ -50,6 +57,7 @@ whiteBoxes.forEach(container => {
     });
 
     container.addEventListener("drop", (e) => {
+        regenCount = 0;
         const droppedBox = document.querySelector(".imgBox.dragging"); // Find the currently dragged box
         if (droppedBox) {
             container.appendChild(droppedBox);
