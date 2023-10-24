@@ -8,6 +8,11 @@ function divGenerator() {
         const rand = Math.floor(Math.random() * 4)+1;
         console.log(rand);
         const newBox = document.createElement('div');
+        if (blackBox.hasChildNodes()) {
+            while (blackBox.firstChild) {
+                blackBox.removeChild(blackBox.firstChild);
+            }
+        }
         newBox.classList.add('imgBox', 'dragging');
         newBox.style.backgroundImage = `url("/images/albums/${rand}.jpg")`; // Add the 'imgBox' class and 'dragging' class to make it draggable
         newBox.setAttribute('draggable', true);
@@ -43,6 +48,9 @@ whiteBoxes.forEach(container => {
 
     container.addEventListener("drop", (e) => {
         const droppedBox = document.querySelector(".imgBox.dragging"); // Find the currently dragged box
+        if(container.children.length > 0){
+            return;
+        }
         if (droppedBox) {
             container.appendChild(droppedBox);
             droppedBox.setAttribute('draggable', false); // Make the dropped box non-draggable
