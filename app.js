@@ -3,16 +3,23 @@ const whiteBoxes = document.querySelectorAll(".whiteBox");
 const genBtn = document.getElementById('genElem');
 const blackBox = document.querySelector('.blackBox');
 
+let prevRand = []
+
+function randGen(){
+    let rand;
+    do {
+        rand = Math.floor(Math.random()*4)+1;
+    }while(prevRand.includes(rand))
+    prevRand.push(rand)
+    return rand;
+}
+
 function divGenerator() {
     genBtn.addEventListener('click', () => {
-        const rand = Math.floor(Math.random() * 4)+1;
+        const rand = randGen()
         console.log(rand);
         const newBox = document.createElement('div');
-        if (blackBox.hasChildNodes()) {
-            while (blackBox.firstChild) {
-                blackBox.removeChild(blackBox.firstChild);
-            }
-        }
+
         newBox.classList.add('imgBox', 'dragging');
         newBox.style.backgroundImage = `url("/images/albums/${rand}.jpg")`; // Add the 'imgBox' class and 'dragging' class to make it draggable
         newBox.setAttribute('draggable', true);
